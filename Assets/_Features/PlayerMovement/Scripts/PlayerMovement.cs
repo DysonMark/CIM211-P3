@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         //      Jumping code
-        //isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);  // Checks if the player is touching the ground
+        isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);  // Checks if the player is touching the ground
 
         if (Input.GetButtonDown("Jump") && isTouchingGround)
         {
