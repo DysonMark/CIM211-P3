@@ -18,9 +18,9 @@ EditorBuildSettings:
     path: Assets/_Features/LevelCreation/Level3/Level_3.unity
     guid: 6fccfac782f8b3e4face8df5c41fc990
   - enabled: 1
+    path: Assets/_Features/LevelCreation/Level_GoodEnding.unity
+    guid: e88526743eb2d364e9ff7096e45cc9ee
+  - enabled: 1
     path: Assets/_Features/LevelCreation/Level_BadEnding.unity
     guid: 02069a199628b244390e1d2c5cdeb9c9
-  - enabled: 1
-    path: Assets/_Features/LevelCreation/Level_GoodEnding 1.unity
-    guid: e88526743eb2d364e9ff7096e45cc9ee
   m_configObjects: {}

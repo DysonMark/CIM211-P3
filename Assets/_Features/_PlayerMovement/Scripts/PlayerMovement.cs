@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class PlayerMovement : MonoBehaviour
+public class _PlayerMovement : MonoBehaviour
 {
     public CharacterController2D characterController2D; //Referencing Brackey's 2D controller
 
@@ -29,7 +30,14 @@ public class PlayerMovement : MonoBehaviour
     {
         //      Horizontal movement
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-        playerAnimator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+        if (horizontalMove is not 0)
+        {
+            playerAnimator.SetBool("isWalking", true);
+        }
+        else if (horizontalMove == 0)
+        {
+            playerAnimator.SetBool("isWalking", false);
+        }
 
 
         //      Jumping code
@@ -49,6 +57,12 @@ public class PlayerMovement : MonoBehaviour
         else if (Input.GetKeyUp(KeyCode.LeftControl))
         {
             crouch = false;
+        }
+        
+        //      DEBUG - Go to next scene
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
     //                      [JUMPING ANIMATION]

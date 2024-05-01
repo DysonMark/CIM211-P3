@@ -4,15 +4,21 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class DecisionMakingLevel2 : MonoBehaviour
+public class DecisionMakingLastLevel : MonoBehaviour
 {
+    [SerializeField] private float nextSceneLoadTime = 3f;
     [SerializeField] private GameObject decision1GO;
     [SerializeField] private GameObject decision2GO;
     private bool playerIsNear;
-    private bool decisionDone;
+    [SerializeField] private bool decisionDone;
     private bool decisionMade1;
     private bool decisionMade2;
+    [SerializeField] private Animator activateGoodLevelCompletition;
+    [SerializeField] private GameObject goodLevelCompletitionGO;
+    [SerializeField] private Animator activateBadLevelCompletition;
+    [SerializeField] private GameObject badLevelCompletitionGO;
 
+    
     private void Start()
     {
         decisionDone = false;
@@ -24,6 +30,10 @@ public class DecisionMakingLevel2 : MonoBehaviour
     {
         MakeDecision();
         DisplayDecisions();
+        if (decisionDone == true)
+        {
+            StartCoroutine("LoadNextScene");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -46,39 +56,52 @@ public class DecisionMakingLevel2 : MonoBehaviour
 
     private void MakeDecision()
     {
-        // Player choose decision 1
+        // Good decision
         if (Input.GetKeyDown(KeyCode.Z))
         {
             if (playerIsNear)
             {
                 decisionMade1 = true;
                 decisionDone = true;
-                LoadNextScene();
+                activateGoodLevelCompletition.SetBool("toggleAnimation", true);
                 Destroy(decision2GO);
             }
         }
         
-        // Player choose decision 2
+        // Bad decision
         if (Input.GetKeyDown(KeyCode.X))
         {
             if (playerIsNear)
             {
                 decisionMade2 = true;
                 decisionDone = true;
-                LoadNextScene();
+                activateBadLevelCompletition.SetBool("toggleAnimation", true);
                 Destroy(decision1GO);
             }
         }
     }
 
-    private void LoadNextScene()
+    private IEnumerator LoadNextScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
+        
+        yield return new WaitForSeconds(nextSceneLoadTime);
+        if (decisionMade1) // Good ending
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+
+        if (decisionMade2) // Bad ending
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+        } 
+    } 
 
     private void DisplayDecisions()
     {
+        if (!decisionDone)
+        {
             decision1GO.SetActive(playerIsNear);
             decision2GO.SetActive(playerIsNear);
+        }
     }
 }
